@@ -64,4 +64,17 @@ you will also need either a system-wide install of PyQt if you want to test from
 
   to start calibre. The venv setup mainly follows my README in =CalibreScaleATon=
   
-  
+** entering your query credentials
+
+*** Bio.Entrez
+
+    set up your email throuh calibre prefences -> Plugins -> config plugin. Without an email, this plugin will not run.
+
+*** CrossRef API key
+
+    get an API key from [[crossref.org]] and fill it in the config plugin dialog. Without the API key, this plugin will not run.
+
+**** TODO fix query syntax
+
+     The current query syntax is almost certainly incorrect, although it does return results.
+
