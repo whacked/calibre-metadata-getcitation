@@ -74,7 +74,3 @@ you will also need either a system-wide install of PyQt if you want to test from
 
     get an API key from [[http://crossref.org][crossref.org]] and fill it in the config plugin dialog. Without the API key, this plugin will not run.
 
-**** TODO fix query syntax
-
-     The current query syntax is almost certainly incorrect, although it does return results.
-

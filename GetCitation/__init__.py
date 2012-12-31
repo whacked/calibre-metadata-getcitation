@@ -136,8 +136,10 @@ if __name__ == "__main__":
     if CGetter.USE_TEST_DATA:
         print termcolor.colored("    >>> USING TEST DATA <<<", "yellow", None, ["bold"])
 
-    identifiers = {'pmid': "15798944",
-                   'doi': '10.1055/s-2005-867080'}
+    identifiers = {
+        'pmid': "15798944",
+        'doi': '10.1055/s-2005-867080',
+        }
     if True:
         dc = {}
         for Getter in CGetter.getter_list:
