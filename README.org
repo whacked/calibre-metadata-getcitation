@@ -4,11 +4,44 @@
 
 A citation fetcher plugin for scholarly articles. If you use Calibre to organize research articles ("papers"), this plugin aims to allow you to fetch article metadata.
 
-You need to input identifying information in the =Ids= field for the entry, then click "Download Metadata".
+You need to input identifying information in the =Ids= field for the entry, then click "Download metadata".
+
+** an example
+
+*** add a new article
+
+[[./doc/img/ss-001.png]]
+
+*** press 'e', here's how the metadata looks
+
+[[./doc/img/ss-002.png]]
+
+*** fill in the =Ids= field and click =Download metadata=
+
+[[./doc/img/ss-003.png]]
+
+*** here's our result
+
+[[./doc/img/ss-004.png]]
+
+*** apply
+
+[[./doc/img/ss-005.png]]
+
+** supported lookup
+
+*** PubMed - provided by Bio.Entrez
+
+*** doi lookup - via crossref
+
 
 ** TODO citation/author format
 
    Issue: different sources don't provide the same format for authors, e.g. you may get abbreviations with or without dots; Calibre treats these differently, so you end up with multiple folders from the same author.
+
+* setup
+
+  work in progress. does not work out of the box without a bit of setup in your machine.
 
 ** dependencies
 
@@ -46,24 +79,6 @@ you will also need either a system-wide install of PyQt if you want to test from
     - Bio.Entrez
     - CrossRef
 
-** supported lookup
-
-*** PubMed - provided by Bio.Entrez
-
-*** doi lookup - via crossref
-
-*** TODO how to add other sources
-
-* getting it to work
-
-  currently in the virtualenv: I use =sh GetCitation/plug*.txt=, then 
-  
-  #+begin_src sh :eval never
-  CALIBRE_DEVELOP_FROM=../calibre-src/src calibre-debug -g
-  #+end_src
-
-  to start calibre. The venv setup mainly follows my README in [[https://github.com/whacked/CalibrePluginScaleATon][CalibrePluginScaleATon]]
-  
 ** entering your query credentials
 
 *** Bio.Entrez
@@ -73,4 +88,17 @@ you will also need either a system-wide install of PyQt if you want to test from
 *** CrossRef API key
 
     get an API key from [[http://crossref.org][crossref.org]] and fill it in the config plugin dialog. Without the API key, this plugin will not run.
+
+* development
+
+** TODO how to add other sources
+
+ currently in the virtualenv: I use =sh GetCitation/plug*.txt=, then 
+ 
+ #+begin_src sh :eval never
+ CALIBRE_DEVELOP_FROM=../calibre-src/src calibre-debug -g
+ #+end_src
+
+ to start calibre. The venv setup mainly follows my README in [[https://github.com/whacked/CalibrePluginScaleATon][CalibrePluginScaleATon]]
+
 
