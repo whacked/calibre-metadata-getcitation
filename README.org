@@ -62,7 +62,7 @@ you will also need either a system-wide install of PyQt if you want to test from
   CALIBRE_DEVELOP_FROM=../calibre-src/src calibre-debug -g
   #+end_src
 
-  to start calibre. The venv setup mainly follows my README in =CalibreScaleATon=
+  to start calibre. The venv setup mainly follows my README in [[https://github.com/whacked/CalibrePluginScaleATon][CalibrePluginScaleATon]]
   
 ** entering your query credentials
 
