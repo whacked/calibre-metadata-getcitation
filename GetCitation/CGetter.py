@@ -106,43 +106,28 @@ class PubMedGetter(CGetter):
             # lastname = el_author.find('LastName')
             # forename = el_author.find('ForeName')
             # initials = el_author.find('Initials')
-            lastname, forename, initials = mapget(author, 'LastName', 'ForeName', 'Initials')
-            dc['authors'].append(("%s %s" % (forename != None and forename.text,
-                                             lastname != None and lastname.text)).strip())
+            lastname, forename, initials = mapget_text(author, 'LastName', 'ForeName', 'Initials')
+            dc['authors'].append(("%s %s" % (forename, lastname)).strip())
 
-        el_pubdate = dom.xpath('//PubDate')
-        if len(el_pubdate):
-            _y, _m, _d = mapget(el_pubdate[0], "Year", "Month", "Day")
-            m = d = 1
-            if _y is not None:
-                y = int(_y.text)
-                if _m is not None:
-                    if _m.text.isdigit():
-                        m = int(_m.text)
-                    elif len(_m.text) is 3:
-                        m = time.strptime(_m.text, "%b").tm_mon
-                    if _d is not None:
-                        d = int(_d.text)
-                dc["pubdate"] = datetime.datetime(y, m, d)
-                del y
-            del _y,_m,_d, m,d
+        dc["pubdate"] = process_pubdate(dom.xpath('//PubDate'),
+                                        "Year", "Month", "Day")
         return dc
 
-# @CGetter.add
-class PLoSGetter(CGetter):
+# # @CGetter.add
+# class PLoSGetter(CGetter):
 
-    entry_identifier = "doi"
-    ls_required_pref_key = [(Const.PLOS_API_KEY, lambda s: isinstance(s, basestring) and len(s) > 25)]
+#     entry_identifier = "doi"
+#     ls_required_pref_key = [(Const.PLOS_API_KEY, lambda s: isinstance(s, basestring) and len(s) > 25)]
     
-    def does_understand(self, s):
-        if not re.match(r'\s*(10[.][0-9]{3,}(?:[.][0-9]+)*/(?:(?!["&\'<>])\S)+)\b', s):
-            return False
-        if s.split(".")[0].lower() in ("pone",):
-            return False
-        return True
+#     def does_understand(self, s):
+#         if not re.match(r'\s*(10[.][0-9]{3,}(?:[.][0-9]+)*/(?:(?!["&\'<>])\S)+)\b', s):
+#             return False
+#         if s.split(".")[0].lower() in ("pone",):
+#             return False
+#         return True
 
-    def resolve(self, identifier):
-        pass
+#     def resolve(self, identifier):
+#         pass
 
 @CGetter.add
 class CrossRefGetter(CGetter):
@@ -179,7 +164,7 @@ class CrossRefGetter(CGetter):
 
         el_pages = dom.xpath('//journal/journal_article/pages')
         if len(el_pages):
-            first_page, last_page = map(lambda el: el.text, mapget(el_pages[0], "first_page", "last_page"))
+            first_page, last_page = mapget_text(el_pages[0], "first_page", "last_page")
             dc['pages'] = "%s-%s" % (first_page, last_page)
 
         dc["pubdate"] = process_pubdate(dom.xpath('//journal//publication_date'),
@@ -187,9 +172,8 @@ class CrossRefGetter(CGetter):
         
         #books.author_sort
         for person_name in dom.xpath("//journal/journal_article/contributors/person_name"):
-            given_name, surname = mapget(person_name, "given_name", "surname")
-            dc['authors'].append(("%s %s" % (given_name != None and given_name.text,
-                                             surname != None and surname.text)).strip())
+            given_name, surname = mapget_text(person_name, "given_name", "surname")
+            dc['authors'].append(("%s %s" % (given_name, surname)).strip())
         return dc        
 
 
