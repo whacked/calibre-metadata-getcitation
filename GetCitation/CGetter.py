@@ -17,7 +17,8 @@ class Validator:
 
 def mapget(el, *argv):
     return map(el.find, argv)
-
+def mapget_text(el, *argv):
+    return [got is not None and got.text or "" for got in mapget(el, *argv)]
 
 
 def calibre_dict():
@@ -55,22 +56,19 @@ class CGetter:
     def add(selfclass, getterclass):
         selfclass.getter_list.append(getterclass())
 
-def process_pubdate(el_pubdate, *ls_timekey):
+def process_pubdate(el_pubdate, *timekey):
     if len(el_pubdate):
-        _y, _m, _d = mapget(el_pubdate[0], *ls_timekey)
-        m = d = 1
-        if _y is not None:
-            y = int(_y.text)
-            if _m is not None:
-                if _m.text.isdigit():
-                    m = int(_m.text)
-                elif len(_m.text) is 3:
-                    m = time.strptime(_m.text, "%b").tm_mon
-                if _d is not None:
-                    d = int(_d.text)
-            return datetime.datetime(y, m, d)
-        
-
+        _year, _month, _day = mapget_text(el_pubdate[0], *timekey)
+        month = day = 1
+        if _year:
+            if _month:
+                if _month.isdigit():
+                    month = int(_month)
+                elif len(_month) is 3:
+                    month = time.strptime(_month, "%b").tm_mon
+                if _day:
+                    day = int(_day)
+            return datetime.datetime(int(_year), month, day)
 
 @CGetter.add
 class PubMedGetter(CGetter):
