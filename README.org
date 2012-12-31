@@ -2,4 +2,66 @@
 
 * calibre-metadata-getcitation
 
-Citation fetcher plugin for scholarly articles
+A citation fetcher plugin for scholarly articles. If you use Calibre to organize research articles ("papers"), this plugin aims to allow you to fetch article metadata.
+
+You need to input identifying information in the =Ids= field for the entry, then click "Download Metadata".
+
+** TODO citation/author format
+
+   Issue: different sources don't provide the same format for authors, e.g. you may get abbreviations with or without dots; Calibre treats these differently, so you end up with multiple folders from the same author.
+
+** dependencies
+
+*** non-optional
+
+    - =pip install lxml=
+
+    this provides xpath lookup through the return xml structure. it seems to be rather heavy... might move to minidom after we get a good idea about the xml return structure. Also consider =xmltodict=, which seems more lightweight.
+
+*** calibre required columns
+
+    some of these are custom columns that you'll need to add:
+
+    - issue
+    - abstract
+    - keywords
+    - volume
+    - pages
+
+*** for development
+
+   these are for testing and probably not useful for the actual plugin
+
+=pip install termcolor see twisted xmltodict PyICU=
+
+I don't want to have to bundle things like BioPython... so it will
+detect whether you have them installed
+
+you will also need either a system-wide install of PyQt if you want to test from the command line without launching Calibre. I'm not listing it as a dep here but We're hacking the =sys.path= to add it.
+
+*** query libraries
+
+    ideally we should detect what the user's machine has, and query accordingly. Currently we assume you've installed it either via =pip= into the venv or again, use a =sys.path= hack
+
+    - Bio.Entrez
+    - CrossRef
+
+** supported lookup
+
+*** PubMed - provided by Bio.Entrez
+
+*** doi lookup - via crossref
+
+*** TODO how to add other sources
+
+* getting it to work
+
+  currently in the virtualenv: I use =sh GetCitation/plug*.txt=, then 
+  
+  #+begin_src sh :eval never
+  CALIBRE_DEVELOP_FROM=../calibre-src/src calibre-debug -g
+  #+end_src
+
+  to start calibre. The venv setup mainly follows my README in =CalibreScaleATon=
+  
+  
