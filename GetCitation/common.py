@@ -11,15 +11,10 @@ from calibre.utils.config import JSONConfig
 class Const:
     NCBI_EMAIL       = 'email_for_NCBI'
     CROSSREF_API_KEY = 'CROSSREF_API_KEY'
-
+    PLOS_API_KEY     = 'PLoS_API_KEY'
 
 prefs = JSONConfig('plugins/CitationGetter')
-prefs.defaults = {
-    Const.NCBI_EMAIL: '',
-    Const.CROSSREF_API_KEY: '',
-    }
-
-
+prefs.defaults = dict([(key, '') for key in Const.__dict__ if not key.startswith('__')])
 
 DLOG_OUT_FILE = "/tmp/cglog.txt"
 DLOG_OUT_FILE = None

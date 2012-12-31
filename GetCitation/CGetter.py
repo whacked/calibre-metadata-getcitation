@@ -47,7 +47,7 @@ class CGetter:
     def does_understand(self, s):
         raise Exception("You should not call me directly")
     def __init__(self):
-        raise Exception("You should not directly instantiate the CGetter class")
+        dlog(self.__class__)
     def resolve(self, identifier):
         raise Exception("You should not call me directly")
 
@@ -62,8 +62,6 @@ class PubMedGetter(CGetter):
     
     def does_understand(self, s):
         return str.isdigit(s)
-    def __init__(self):
-        print "PMGetter"
 
     def resolve(self, identifier):
         if self.USE_TEST_DATA:
@@ -115,6 +113,22 @@ class PubMedGetter(CGetter):
             del _y,_m,_d, m,d
         return dc
 
+# @CGetter.add
+class PLoSGetter(CGetter):
+
+    entry_identifier = "doi"
+    ls_required_pref_key = [(Const.PLOS_API_KEY, lambda s: isinstance(s, basestring) and len(s) > 25)]
+    
+    def does_understand(self, s):
+        if not re.match(r'\s*(10[.][0-9]{3,}(?:[.][0-9]+)*/(?:(?!["&\'<>])\S)+)\b', s):
+            return False
+        if s.split(".")[0].lower() in ("pone",):
+            return False
+        return True
+
+    def resolve(self, identifier):
+        pass
+
 @CGetter.add
 class CrossRefGetter(CGetter):
 
@@ -126,8 +140,6 @@ class CrossRefGetter(CGetter):
     def does_understand(self, s):
         # ref: http://stackoverflow.com/questions/27910/finding-a-doi-in-a-document-or-page
         return re.match(r'\s*(10[.][0-9]{3,}(?:[.][0-9]+)*/(?:(?!["&\'<>])\S)+)\b', s)
-    def __init__(self):
-        dlog(self.__class__)
 
     def resolve(self, identifier):
         if self.USE_TEST_DATA:
