@@ -76,7 +76,7 @@ class PubMedGetter(CGetter):
     ls_required_pref_key = [(Const.NCBI_EMAIL, Validator.email),]
     
     def does_understand(self, s):
-        return str.isdigit(s)
+        return s.isdigit()
 
     def resolve(self, identifier):
         if self.USE_TEST_DATA:
