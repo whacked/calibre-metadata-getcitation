@@ -55,6 +55,23 @@ class CGetter:
     def add(selfclass, getterclass):
         selfclass.getter_list.append(getterclass())
 
+def process_pubdate(el_pubdate, *ls_timekey):
+    if len(el_pubdate):
+        _y, _m, _d = mapget(el_pubdate[0], *ls_timekey)
+        m = d = 1
+        if _y is not None:
+            y = int(_y.text)
+            if _m is not None:
+                if _m.text.isdigit():
+                    m = int(_m.text)
+                elif len(_m.text) is 3:
+                    m = time.strptime(_m.text, "%b").tm_mon
+                if _d is not None:
+                    d = int(_d.text)
+            return datetime.datetime(y, m, d)
+        
+
+
 @CGetter.add
 class PubMedGetter(CGetter):
     entry_identifier = "pmid"
@@ -167,23 +184,9 @@ class CrossRefGetter(CGetter):
             first_page, last_page = map(lambda el: el.text, mapget(el_pages[0], "first_page", "last_page"))
             dc['pages'] = "%s-%s" % (first_page, last_page)
 
-        el_pubdate = dom.xpath('//journal//publication_date')
-        if len(el_pubdate):
-            _y, _m, _d = mapget(el_pubdate[0], "year", "month", "day")
-            m = d = 1
-            if _y is not None:
-                y = int(_y.text)
-                if _m is not None:
-                    if _m.text.isdigit():
-                        m = int(_m.text)
-                    elif len(_m.text) is 3:
-                        m = time.strptime(_m.text, "%b").tm_mon
-                    if _d is not None:
-                        d = int(_d.text)
-                dc["pubdate"] = datetime.datetime(y, m, d)
-                del y
-            del _y,_m,_d, m,d
-
+        dc["pubdate"] = process_pubdate(dom.xpath('//journal//publication_date'),
+                                        "year", "month", "day")
+        
         #books.author_sort
         for person_name in dom.xpath("//journal/journal_article/contributors/person_name"):
             given_name, surname = mapget(person_name, "given_name", "surname")
