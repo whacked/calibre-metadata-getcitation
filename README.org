@@ -12,31 +12,21 @@ You need to input identifying information in the =Ids= field for the entry, then
 
 [[./doc/img/ss-001.png]]
 
-[[http://i.imgur.com/Puxzm.png]]
-
 *** press 'e', here's how the metadata looks
 
 [[./doc/img/ss-002.png]]
-
-[[http://i.imgur.com/ek9h4.png]]
 
 *** fill in the =Ids= field and click =Download metadata=
 
 [[./doc/img/ss-003.png]]
 
-[[http://i.imgur.com/eaxsj.png]]
-
 *** here's our result
 
 [[./doc/img/ss-004.png]]
 
-[[http://i.imgur.com/lGoAD.png]]
-
 *** apply
 
 [[./doc/img/ss-005.png]]
-
-[[http://i.imgur.com/eprMZ.png]]
 
 ** supported lookup
 
